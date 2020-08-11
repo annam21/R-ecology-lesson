@@ -93,12 +93,11 @@ for issues in the styling of your code.
 > https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Objects
 
 
-When assigning a value to an object, R does not print anything. You can force R to print the value by using parentheses or by typing the object name:
+When assigning a value to an object, R does not print anything. You can see the contents by typing the object name:
 
 ```{r, purl = FALSE}
 weight_kg <- 55    # doesn't print anything
-(weight_kg <- 55)  # but putting parenthesis around the call prints the value of `weight_kg`
-weight_kg          # and so does typing the name of the object
+weight_kg          # prints the value 
 ```
 
 Now that R has `weight_kg` in memory, we can do arithmetic with it. For
@@ -335,21 +334,17 @@ calculating.
 An **atomic vector** is the simplest R **data type** and is a linear vector of a single type. Above, we saw 
 2 of the 6 main **atomic vector** types  that R
 uses: `"character"` and `"numeric"` (or `"double"`). These are the basic building blocks that
-all R objects are built from. The other 4 **atomic vector** types are:
+all R objects are built from. Other useful **atomic vector** types are:
 
-* `"logical"` for `TRUE` and `FALSE` (the boolean data type)
+* `"logical"` for `TRUE` and `FALSE` (the boolean data type)  
 * `"integer"` for integer numbers (e.g., `2L`, the `L` indicates to R that it's an integer)
-* `"complex"` to represent complex numbers with real and imaginary parts (e.g.,
-  `1 + 4i`) and that's all we're going to say about them
-* `"raw"` for bitstreams that we won't discuss further
 
-You can check the type of your vector using the `typeof()` function and inputting your vector as the argument.
+You can check the type of your vector using the `class()` function and inputting your vector as the argument.
 
 Vectors are one of the many **data structures** that R uses. Other important
-ones are lists (`list`), matrices (`matrix`), data frames (`data.frame`),
-factors (`factor`) and arrays (`array`).
+ones are lists (`list`), matrices (`matrix`), and data frames (`data.frame`)
 
-
+# [Ben and Anna: just assign the first one. If people are bored, they can go on to the others]
 > ### Challenge
 >
 >
@@ -445,14 +440,6 @@ or several indices in square brackets. For instance:
 animals <- c("mouse", "rat", "dog", "cat")
 animals[2]
 animals[c(3, 2)]
-```
-
-We can also repeat the indices to create an object with more elements than the
-original one:
-
-```{r, results = 'show', purl = FALSE}
-more_animals <- animals[c(1, 2, 3, 2, 1, 4)]
-more_animals
 ```
 
 R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
@@ -560,7 +547,7 @@ na.omit(heights)
 #The returned object is an atomic vector of type `"numeric"` (or #`"double"`).
 heights[complete.cases(heights)]
 ```
-Recall that you can use the `typeof()` function to find the type of your atomic vector.
+Recall that you can use the `class()` function to find the type of your atomic vector.
 
 > ### Challenge
 >

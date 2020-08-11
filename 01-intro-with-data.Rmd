@@ -1,0 +1,359 @@
+---
+title: "Introduction to R, using data"
+author: "Data Carpentry contributors"
+---
+
+```{r, echo = FALSE, purl = FALSE, message = FALSE}
+source("setup.R")
+```
+
+------------
+
+> ### Learning Objectives
+>
+> * Define the following terms as they relate to R: object, assign, call,
+>   function, arguments, options.
+> * Create objects and assign values to them  in R.
+> * Learn how to _name_ objects.
+> * Save a script file for later use.
+> * Use comments to inform script.
+> * Solve simple arithmetic operations in R.
+> * Call functions and use arguments to change their default options.
+> * Load external data from a .csv file into a data frame.
+
+------------
+
+You can get output from R simply by typing math in the console:
+
+```{r, purl = FALSE}
+3 + 5
+12 / 7
+```
+
+### Functions and their arguments
+
+You can also use functions 
+```{r, purl = FALSE}
+sqrt(9)
+round(3.14159)
+```
+Functions are "canned scripts" that automate more complicated sets of commands
+including operations assignments, etc. Many functions are predefined, or can be
+made available by importing R *packages* (more on that in a second). A function
+usually takes one or more inputs called *arguments*. Functions often (but not
+always) return a *value*. A typical example would be the function `sqrt()`. The
+input (the argument) must be a number, and the return value (in fact, the
+output) is the square root of that number. Executing a function ('running it')
+is called *calling* the function. An example of a function call is:
+
+```{r, eval = FALSE, purl = FALSE}
+sqrt(100)
+```
+
+Here, the `sqrt()` function calculates the square root, and returns the value. This function is very simple, because it takes just one argument.
+
+The return 'value' of a function need not be numerical (like that of `sqrt()`),
+and it also does not need to be a single item: it can be a set of things, or
+even a dataset. We'll see that when we read data files into R.
+
+Arguments can be anything, not only numbers or filenames, but also other
+objects. Exactly what each argument means differs per function, and must be
+looked up in the documentation (see below). Some functions take arguments which
+may either be specified by the user, or, if left out, take on a *default* value:
+these are called *options*. Options are typically used to alter the way the
+function operates, such as whether it ignores 'bad values', or what symbol to
+use in a plot.  However, if you want something specific, you can specify a value
+of your choice which will be used instead of the default.
+
+Let's try a function that can take multiple arguments: `round()`.
+
+```{r, results = 'show', purl = FALSE}
+round(3.14159)
+```
+
+Here, we've called `round()` with just one argument, `3.14159`, and it has
+returned the value `3`.  That's because the default is to round to the nearest
+whole number. If we want more digits we can see how to do that by getting
+information about the `round` function.  We can use `args(round)` to find what 
+arguments it takes, or look at the
+help for this function using `?round`.
+
+```{r, results = 'show', purl = FALSE}
+args(round)
+```
+
+```{r, eval = FALSE, purl = FALSE}
+?round
+```
+
+We see that if we want a different number of digits, we can
+type `digits = 2` or however many we want.
+
+```{r, results = 'show', purl = FALSE}
+round(3.14159, digits = 2)
+```
+
+If you provide the arguments in the exact same order as they are defined you
+don't have to name them:
+
+```{r, results = 'show', purl = FALSE}
+round(3.14159, 2)
+```
+
+And if you do name the arguments, you can switch their order:
+
+```{r, results = 'show', purl = FALSE}
+round(digits = 2, x = 3.14159)
+```
+
+It's good practice to put the non-optional arguments (like the number you're
+rounding) first in your function call, and to then specify the names of all optional
+arguments.  If you don't, someone reading your code might have to look up the
+definition of a function with unfamiliar arguments to understand what you're
+doing.
+
+### Saving your code
+
+Up to now, your code has been in the console. This is useful for quick queries
+but not so helpful if you want to revisit your work for any reason.
+A script can be opened by pressing <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
+<kbd>N</kbd>. 
+It it wise to save your script file immediately. To do this press 
+<kbd>Ctrl</kbd> + <kbd>S</kbd>. This will open a dialogue box where you 
+can decide where to save your script file, and what to name it.
+The `.R` file extension is added automatically and ensures your file
+will open with RStudio.
+
+Don't forget to save your work periodically by pressing <kbd>Ctrl</kbd> + 
+<kbd>S</kbd>.
+
+
+### Comments
+
+The comment character in R is `#`, anything to the right of a `#` in a script
+will be ignored by R. It is useful to leave notes and explanations in your
+scripts.
+RStudio makes it easy to comment or uncomment a paragraph: after selecting the
+lines you  want to comment, press at the same time on your keyboard
+<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>. If you only want to comment
+out one line, you can put the cursor at any location of that line (i.e. no need 
+to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
+<kbd>C</kbd>.
+
+### Working with data 
+
+Now that we have the basics of working with functions, let's work with some data. 
+
+```{r, echo=FALSE, purl=FALSE, message = FALSE}
+source("setup.R")
+surveys <- read.csv("data_raw/portal_data_joined.csv")
+suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
+                                                      surveys$month,
+                                                      surveys$day,
+                                                      sep = "-")))
+```
+
+We are going to use the R function `download.file()` to download the CSV file
+that contains the survey data from Figshare, and we will use `read.csv()` to
+load into memory the content of the CSV file as an object of class `data.frame`. 
+Inside the download.file command, the first entry is a character string with the source URL 
+("https://ndownloader.figshare.com/files/2292169"). This source URL downloads a CSV file from 
+figshare. The text after the comma ("data_raw/portal_data_joined.csv") is the destination of the 
+file on your local machine. You'll need to have a folder on your machine called "data_raw" where 
+you'll download the file. So this command downloads a file from Figshare, names it 
+"portal_data_joined.csv" and adds it to a preexisting folder named "data_raw".
+
+```{r, eval=FALSE, purl=TRUE}
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data_raw/portal_data_joined.csv")
+```
+
+You can navigate on your computer to this file and open it in Excel. Take a look at the data and familiarize yourself with it. If you are used to using Excel, think about how you would do things like filter out errors, count the number of records, fix missing data, compute means and medians, and make graphs. 
+
+
+# Data Manipulation using **`dplyr`** and **`tidyr`**
+
+**`dplyr`** is a package for
+making data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+
+Packages in R are basically sets of additional functions that let you do more
+stuff. The functions we've been using so far, like `sqrt()` or `round()`,
+come built into R; packages give you access to more of them. Before you use a
+package for the first time you need to install it on your machine, and then you
+should import it in every subsequent R session when you need it. You should
+already have installed the **`tidyverse`** package. This is an
+"umbrella-package" that installs several packages useful for data analysis which
+work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
+
+If we haven't already done so, we can type `install.packages("tidyverse")` straight into the console. In fact, it's better to write this in the console than in our script for any package, as there's no need to re-install packages every time we run the script.
+
+Then, to load the package type:
+
+
+```{r, message = FALSE, purl = FALSE}
+## load the tidyverse packages, incl. dplyr
+library("tidyverse")
+```
+
+## What are **`dplyr`** and **`tidyr`**?
+
+The package **`dplyr`** provides easy tools for the most common data manipulation
+tasks. It is built to work directly with data frames, with many common tasks
+optimized by being written in a compiled language (C++). An additional feature is the
+ability to work directly with data stored in an external database. The benefits of
+doing this are that the data can be managed natively in a relational database,
+queries can be conducted on that database, and only the results of the query are
+returned.
+
+This addresses a common problem with R in that all operations are conducted
+in-memory and thus the amount of data you can work with is limited by available
+memory. The database connections essentially remove that limitation in that you
+can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
+back into R only what you need for analysis.
+
+The package **`tidyr`** addresses the common problem of wanting to reshape your data for
+plotting and use by different R functions. Sometimes we want data sets where we have one
+row per measurement. Sometimes we want a data frame where each measurement type has its
+own column, and rows are instead more aggregated groups
+(e.g., a time period, an experimental unit like a plot or a batch number).
+Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools
+for this and more sophisticated  data manipulation.
+
+To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
+[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
+
+We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**.
+
+First, let's find data_raw/portal_data_joined.csv on our computers and open it in Excel. Looks familiar, right?  Now, let's open it in R. 
+```{r, results = 'hide', purl = FALSE}
+surveys <- read_csv("data_raw/portal_data_joined.csv")
+```
+
+You will see the message `Parsed with column specification`, followed by each column name and its data type.
+When you execute `read_csv` on a data file, it looks through the first 1000 rows of each column and
+guesses the data type for each column as it reads it into R. For example, in this dataset, `read_csv`
+reads `weight` as `col_double` (a numeric data type), and `species` as `col_character`. You have the
+option to specify the data type for a column manually by using the `col_types` argument in `read_csv`.
+
+
+Let's take a look at what we did there. 
+
+`<-` is the assignment operator. It assigns values on the right to objects on
+the left. We have created an object named "surveys". We can explore this object using different functions, or commands. 
+
+```{r, purl = FALSE}
+surveys          # prints the value 
+```
+
+
+For historical reasons, you can also use `=`
+for assignments, but not in every context. Because of the
+[slight](https://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)
+[differences](https://r.789695.n4.nabble.com/Is-there-any-difference-between-and-tp878594p878598.html)
+in syntax, it is good practice to always use `<-` for assignments.
+
+In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
+same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
+same time as the <kbd>-</kbd> key) does the same in a Mac.
+
+Objects can be given any name such as `x`, `current_temperature`, or
+`subject_id`. You want your object names to be explicit and not too long. They
+cannot start with a number (`2x` is not valid, but `x2` is). R is case sensitive
+(e.g., `weight_kg` is different from `Weight_kg`). There are some names that
+cannot be used because they are the names of fundamental functions in R (e.g.,
+`if`, `else`, `for`, see
+[here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
+for a complete list). In general, even if it's allowed, it's best to not use
+other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+doubt, check the help to see if the name is already in use. It's also best to
+avoid dots (`.`) within names. Many function names in R itself have them and
+dots also have a special meaning (methods) in R and other programming languages.
+To avoid confusion, don't include dots in names. It is also recommended to use nouns for object names, and
+verbs for function names. It's important to be consistent in the styling of your
+code (where you put spaces, how you name objects, etc.). Using a consistent
+coding style makes your code clearer to read for your future self and your
+collaborators. In R, three popular style guides are
+[Google's](https://google.github.io/styleguide/Rguide.xml), [Jean
+Fan's](https://jef.works/R-style-guide/) and the
+[tidyverse's](https://style.tidyverse.org/). The tidyverse's is very
+comprehensive and may seem overwhelming at first. You can install the
+[**`lintr`**](https://github.com/jimhester/lintr) package to automatically check
+for issues in the styling of your code.
+
+The function `str()` provides an overview of the structure of an object and its
+elements. It is a useful function when working with large and complex
+objects:
+
+```{r, results = 'hide', purl = FALSE}
+## inspect the data
+str(surveys)
+```
+
+```{r, eval=FALSE, purl=FALSE}
+## preview the data
+View(surveys)
+head(surveys)
+tail(surveys)
+dim(surveys)
+```
+
+
+## Inspecting `data.frame` Objects
+
+We already saw how the functions `head()` and `str()` can be useful to check the
+content and the structure of a data frame. Here is a non-exhaustive list of
+functions to get a sense of the content/structure of the data. Let's try them out!
+
+* Size:
+    * `dim(surveys)` - returns a vector with the number of rows in the first element,
+          and the number of columns as the second element (the **dim**ensions of
+          the object)
+    * `nrow(surveys)` - returns the number of rows
+    * `ncol(surveys)` - returns the number of columns
+
+* Content:
+    * `head(surveys)` - shows the first 6 rows
+    * `tail(surveys)` - shows the last 6 rows
+
+* Names:
+    * `names(surveys)` - returns the column names (synonym of `colnames()` for `data.frame`
+	   objects)
+    * `rownames(surveys)` - returns the row names
+
+* Summary:
+    * `str(surveys)` - structure of the object and information about the class, length and
+	   content of  each column
+    * `summary(surveys)` - summary statistics for each column
+
+Note: most of these functions are "generic", they can be used on other types of
+objects besides `data.frame`.
+
+
+> ### Challenge
+>
+> Based on the output of `str(surveys)`, can you answer the following questions?
+>
+> * What is the class of the object `surveys`?
+> * How many rows and how many columns are in this object?
+> * How many species have been recorded during these surveys?
+>
+> ```{r, answer=TRUE, results="markup", purl=FALSE}
+>
+> str(surveys)
+>
+> ## * class: data frame
+> ## * how many rows: 34786,  how many columns: 13
+> ## * how many species: 48
+>
+> ```
+
+
+```{r, echo=FALSE, purl=TRUE}
+
+## Challenge
+## Based on the output of `str(surveys)`, can you answer the following questions?
+## * How many rows and how many columns are in this object?
+## * How many species have been recorded during these surveys?
+
+```
