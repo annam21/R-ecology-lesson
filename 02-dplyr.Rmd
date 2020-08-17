@@ -34,6 +34,62 @@ suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
 
 # Data Manipulation using **`dplyr`** and **`tidyr`**
 
+**`dplyr`** is a package for
+making data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
+
+Packages in R are basically sets of additional functions that let you do more
+stuff. The functions we've been using so far, like `sqrt()` or `round()`,
+come built into R; packages give you access to more of them. Before you use a
+package for the first time you need to install it on your machine, and then you
+should import it in every subsequent R session when you need it. You should
+already have installed the **`tidyverse`** package. This is an
+"umbrella-package" that installs several packages useful for data analysis which
+work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
+
+If we haven't already done so, we can type `install.packages("tidyverse")` straight into the console. In fact, it's better to write this in the console than in our script for any package, as there's no need to re-install packages every time we run the script.
+
+Installing packages 
+```{r}
+## load the tidyverse packages, incl. dplyr
+install.packages("tidyverse")
+```
+
+Then, to load the package type:
+```{r, message = FALSE, purl = FALSE}
+## load the tidyverse packages, incl. dplyr
+library("tidyverse")
+```
+
+## What are **`dplyr`** and **`tidyr`**?
+
+The package **`dplyr`** provides easy tools for the most common data manipulation
+tasks. It is built to work directly with data frames, with many common tasks
+optimized by being written in a compiled language (C++). An additional feature is the
+ability to work directly with data stored in an external database. The benefits of
+doing this are that the data can be managed natively in a relational database,
+queries can be conducted on that database, and only the results of the query are
+returned.
+
+This addresses a common problem with R in that all operations are conducted
+in-memory and thus the amount of data you can work with is limited by available
+memory. The database connections essentially remove that limitation in that you
+can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
+back into R only what you need for analysis.
+
+The package **`tidyr`** addresses the common problem of wanting to reshape your data for
+plotting and use by different R functions. Sometimes we want data sets where we have one
+row per measurement. Sometimes we want a data frame where each measurement type has its
+own column, and rows are instead more aggregated groups
+(e.g., a time period, an experimental unit like a plot or a batch number).
+Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools
+for this and more sophisticated  data manipulation.
+
+To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
+[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
+
+# Data Manipulation using **`dplyr`** and **`tidyr`**
+
 Bracket subsetting is handy, but it can be cumbersome and difficult to read,
 especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for
 making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
@@ -486,8 +542,7 @@ the *albigula* species that are not specified for its sex (i.e. `NA`).
 > ```
 >
 > 2. Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
-> length for each species (using `species_id`). Also add the number of
-> observations (hint: see `?n`).
+> length for each species (using `species_id`). 
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys %>%
@@ -496,8 +551,7 @@ the *albigula* species that are not specified for its sex (i.e. `NA`).
 >     summarize(
 >         mean_hindfoot_length = mean(hindfoot_length),
 >         min_hindfoot_length = min(hindfoot_length),
->         max_hindfoot_length = max(hindfoot_length),
->         n = n()
+>         max_hindfoot_length = max(hindfoot_length)
 >     )
 > ```
 >

@@ -154,7 +154,7 @@ suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
 ```
 
 We are going to use the R function `download.file()` to download the CSV file
-that contains the survey data from Figshare, and we will use `read.csv()` to
+that contains the survey data from Figshare, and we will use `read_csv()` to
 load into memory the content of the CSV file as an object of class `data.frame`. 
 Inside the download.file command, the first entry is a character string with the source URL 
 ("https://ndownloader.figshare.com/files/2292169"). This source URL downloads a CSV file from 
@@ -171,71 +171,15 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 You can navigate on your computer to this file and open it in Excel. Take a look at the data and familiarize yourself with it. If you are used to using Excel, think about how you would do things like filter out errors, count the number of records, fix missing data, compute means and medians, and make graphs. 
 
 
-# Data Manipulation using **`dplyr`** and **`tidyr`**
-
-**`dplyr`** is a package for
-making data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
-
-Packages in R are basically sets of additional functions that let you do more
-stuff. The functions we've been using so far, like `sqrt()` or `round()`,
-come built into R; packages give you access to more of them. Before you use a
-package for the first time you need to install it on your machine, and then you
-should import it in every subsequent R session when you need it. You should
-already have installed the **`tidyverse`** package. This is an
-"umbrella-package" that installs several packages useful for data analysis which
-work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
-
-If we haven't already done so, we can type `install.packages("tidyverse")` straight into the console. In fact, it's better to write this in the console than in our script for any package, as there's no need to re-install packages every time we run the script.
-
-Then, to load the package type:
-
-
-```{r, message = FALSE, purl = FALSE}
-## load the tidyverse packages, incl. dplyr
-library("tidyverse")
-```
-
-## What are **`dplyr`** and **`tidyr`**?
-
-The package **`dplyr`** provides easy tools for the most common data manipulation
-tasks. It is built to work directly with data frames, with many common tasks
-optimized by being written in a compiled language (C++). An additional feature is the
-ability to work directly with data stored in an external database. The benefits of
-doing this are that the data can be managed natively in a relational database,
-queries can be conducted on that database, and only the results of the query are
-returned.
-
-This addresses a common problem with R in that all operations are conducted
-in-memory and thus the amount of data you can work with is limited by available
-memory. The database connections essentially remove that limitation in that you
-can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
-back into R only what you need for analysis.
-
-The package **`tidyr`** addresses the common problem of wanting to reshape your data for
-plotting and use by different R functions. Sometimes we want data sets where we have one
-row per measurement. Sometimes we want a data frame where each measurement type has its
-own column, and rows are instead more aggregated groups
-(e.g., a time period, an experimental unit like a plot or a batch number).
-Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools
-for this and more sophisticated  data manipulation.
-
-To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
-[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
-and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
-
-We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**.
+We'll read in our data using the `read.csv()` function.
 
 First, let's find data_raw/portal_data_joined.csv on our computers and open it in Excel. Looks familiar, right?  Now, let's open it in R. 
 ```{r, results = 'hide', purl = FALSE}
-surveys <- read_csv("data_raw/portal_data_joined.csv")
+surveys <- read.csv("data_raw/portal_data_joined.csv",
+                    stringsAsFactors = FALSE)
 ```
 
-You will see the message `Parsed with column specification`, followed by each column name and its data type.
-When you execute `read_csv` on a data file, it looks through the first 1000 rows of each column and
-guesses the data type for each column as it reads it into R. For example, in this dataset, `read_csv`
-reads `weight` as `col_double` (a numeric data type), and `species` as `col_character`. You have the
-option to specify the data type for a column manually by using the `col_types` argument in `read_csv`.
-
+## Creating objects
 
 Let's take a look at what we did there. 
 
@@ -245,7 +189,6 @@ the left. We have created an object named "surveys". We can explore this object 
 ```{r, purl = FALSE}
 surveys          # prints the value 
 ```
-
 
 For historical reasons, you can also use `=`
 for assignments, but not in every context. Because of the
@@ -334,17 +277,17 @@ objects besides `data.frame`.
 >
 > Based on the output of `str(surveys)`, can you answer the following questions?
 >
-> * What is the class of the object `surveys`?
 > * How many rows and how many columns are in this object?
 > * How many species have been recorded during these surveys?
+> * What is the class of the object `surveys`?
 >
 > ```{r, answer=TRUE, results="markup", purl=FALSE}
 >
 > str(surveys)
 >
-> ## * class: data frame
 > ## * how many rows: 34786,  how many columns: 13
 > ## * how many species: 48
+> ## * class: data frame
 >
 > ```
 
