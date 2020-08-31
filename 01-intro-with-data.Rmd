@@ -20,6 +20,7 @@ source("setup.R")
 > * Solve simple arithmetic operations in R.
 > * Call functions and use arguments to change their default options.
 > * Load external data from a .csv file into a data frame.
+> * Explore data.frame using commands in R.
 
 ------------
 
@@ -209,6 +210,9 @@ surveys <- read.csv("data_raw/portal_data_joined.csv",
                     stringsAsFactors = FALSE)
 ```
 
+Talk about stringsAsFactors as an optional argument that affects the functionality of the data. You'll usually want to use stringsAsFactors = F. Factors are one of the many data types that R can handle, but we're not going to discuss them in depth today. 
+
+
 ## Creating objects
 
 Let's take a look at what we did there. 
@@ -310,18 +314,49 @@ objects besides `data.frame`.
 > Based on the output of `str(surveys)`, can you answer the following questions?
 >
 > * How many rows and how many columns are in this object?
-> * What is the class of the object `surveys`?
 > * What is the difference in how R stores integer columns (int) versus character columns (chr)?
 > * How does R store missing data? 
+> * What is the class of the object `surveys`?
 >
 > ```{r, answer=TRUE, results="markup", purl=FALSE}
 >
 > str(surveys)
 >
 > ## * how many rows: 34786,  how many columns: 13
-> ## * class: data.frame
 > ## * Integers do not have "" but characters do
 > ## * Missing data are stored as NA
+> ## * class: data.frame
 >
 > ```
 
+> ### Debugging challenge
+>
+> Can you interpret these error messages and fix the code? 
+>
+> * install.packages(tidyr)
+> * 
+>
+> ```{r, answer=TRUE, results="hide", purl=FALSE}
+>
+> install.packages("tidyr")
+>
+> ```
+> Why isn't this code rounding pi to 2 digits? 
+>
+> round(2, 3.1415)
+>
+> ```{r, answer=TRUE, results="markup", purl=FALSE}
+>
+> ## * The arguments are switched or need to be labeled
+> round(3.1415, 2)
+> round(digits = 2, x = 3.1415)
+>
+> ```
+> What are the arguments for the `plot()` function?
+>
+> ```{r, answer=TRUE, results='hide', purl=FALSE}
+>
+> ## ?plot
+> args(plot)
+>
+> ```
