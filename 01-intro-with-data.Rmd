@@ -39,7 +39,7 @@ round(3.14159)
 ```
 Functions are "canned scripts" that automate more complicated sets of commands
 including operations assignments, etc. Many functions are predefined, or can be
-made available by importing R *packages* (more on that in a second). A function
+made available by importing R *packages* (more on that later). A function
 usually takes one or more inputs called *arguments*. Functions often (but not
 always) return a *value*. A typical example would be the function `sqrt()`. The
 input (the argument) must be a number, and the return value (in fact, the
@@ -112,6 +112,35 @@ arguments.  If you don't, someone reading your code might have to look up the
 definition of a function with unfamiliar arguments to understand what you're
 doing.
 
+> ### Challenge
+>
+> Can you solve the following mathematical equations using R? 
+>
+> * 106 * 8
+> * 1 + 2/3 * 4
+> * (1+2)/3 * 4
+> * (37+89)/12
+> * $\sqrt{1654}$ 
+> * 18\% of 97.65
+> * log(100)
+> * log(100, base = 10)
+> * mean of: 34, 26, 65, 46, 27
+>
+> ```{r, answer=TRUE, results="markup", purl=FALSE}
+>
+>
+> 106 * 8
+> 1 + 2/3 * 4
+> (1+2)/3 * 4
+> (37+89)/12
+> sqrt(1654)
+> .18 * 97.65
+## Notice the default is base e
+> log(100) 
+> log(100, base = 10)
+> (34 + 26 + 65 + 46 + 27)/5
+> ```
+
 ### Saving your code
 
 Up to now, your code has been in the console. This is useful for quick queries
@@ -154,7 +183,7 @@ suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
 ```
 
 We are going to use the R function `download.file()` to download the CSV file
-that contains the survey data from Figshare, and we will use `read_csv()` to
+that contains the survey data from Figshare, and we will use `read.csv()` to
 load into memory the content of the CSV file as an object of class `data.frame`. 
 Inside the download.file command, the first entry is a character string with the source URL 
 ("https://ndownloader.figshare.com/files/2292169"). This source URL downloads a CSV file from 
@@ -169,7 +198,6 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 ```
 
 You can navigate on your computer to this file and open it in Excel. Take a look at the data and familiarize yourself with it. If you are used to using Excel, think about how you would do things like filter out errors, count the number of records, fix missing data, compute means and medians, and make graphs. 
-
 
 We'll read in our data using the `read.csv()` function.
 
@@ -224,14 +252,7 @@ comprehensive and may seem overwhelming at first. You can install the
 [**`lintr`**](https://github.com/jimhester/lintr) package to automatically check
 for issues in the styling of your code.
 
-The function `str()` provides an overview of the structure of an object and its
-elements. It is a useful function when working with large and complex
-objects:
-
-```{r, results = 'hide', purl = FALSE}
-## inspect the data
-str(surveys)
-```
+We can also view the object in a prettier way, using commands
 
 ```{r, eval=FALSE, purl=FALSE}
 ## preview the data
@@ -239,6 +260,15 @@ View(surveys)
 head(surveys)
 tail(surveys)
 dim(surveys)
+```
+
+The function `str()` provides an overview of the structure of an object and its
+elements. It is a useful function when working with large and complex
+objects:
+
+```{r, results = 'hide', purl = FALSE}
+## inspect the data
+str(surveys)
 ```
 
 
@@ -278,25 +308,18 @@ objects besides `data.frame`.
 > Based on the output of `str(surveys)`, can you answer the following questions?
 >
 > * How many rows and how many columns are in this object?
-> * How many species have been recorded during these surveys?
 > * What is the class of the object `surveys`?
+> * What is the difference in how R stores integer columns (int) versus character columns (chr)?
+> * How does R store missing data? 
 >
 > ```{r, answer=TRUE, results="markup", purl=FALSE}
 >
 > str(surveys)
 >
 > ## * how many rows: 34786,  how many columns: 13
-> ## * how many species: 48
-> ## * class: data frame
+> ## * class: data.frame
+> ## * Integers do not have "" but characters do
+> ## * Missing data are stored as NA
 >
 > ```
 
-
-```{r, echo=FALSE, purl=TRUE}
-
-## Challenge
-## Based on the output of `str(surveys)`, can you answer the following questions?
-## * How many rows and how many columns are in this object?
-## * How many species have been recorded during these surveys?
-
-```
