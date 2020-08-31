@@ -173,6 +173,8 @@ to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
 
 Now that we have the basics of working with functions, let's work with some data. 
 
+R can work with lots of different forms of data, like vectors, lists, and data.frames. We're going to start investigating the power of R using the data.frame. The curriculum we based this workshop on goes into more detail on these other data structures, and you can refer to it to learn more. 
+
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
 source("setup.R")
 surveys <- read.csv("data_raw/portal_data_joined.csv")
