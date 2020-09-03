@@ -1,0 +1,58 @@
+---
+title: "More challenges"
+author: "Anna Moeller"
+date: "9/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+> ## Debugging challenge
+>
+> #### Can you interpret the error messages these cause and fix the code? 
+>
+> `install.packages(tidyr)`
+> 
+> `"12" + "4"`
+>
+> `x + 10`
+>
+>```{r, eval = FALSE}
+> mydata <- 15
+> my.data + 5
+>```
+>
+> `head(surveys))`
+>
+> `log(100 base = 10)`
+>
+>
+>
+> #### Why isn't this code rounding pi to 2 digits? 
+>
+> `round(2, 3.1415)`
+>
+>
+>
+> #### What are the arguments for the `plot()` function?
+>
+> 
+> 
+> ```{r, answer=TRUE, results="hide", purl=FALSE}
+>
+> # install.packages("tidyr")
+>
+> ## * The arguments are switched or need to be labeled
+> round(3.1415, 2)
+> round(digits = 2, x = 3.1415)
+>
+>
+> ## ?plot
+> args(plot)
+>
+> ```
