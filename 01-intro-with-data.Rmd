@@ -314,6 +314,7 @@ objects besides `data.frame`.
 > Based on the output of `str(surveys)`, can you answer the following questions?
 >
 > * How many rows and how many columns are in this object?
+> * What is `$` used to indicate? 
 > * What is the difference in how R stores integer columns (int) versus character columns (chr)?
 > * How does R store missing data? 
 > * What is the class of the object `surveys`?
@@ -323,40 +324,20 @@ objects besides `data.frame`.
 > str(surveys)
 >
 > ## * how many rows: 34786,  how many columns: 13
+> ## * $ indicates column names
 > ## * Integers do not have "" but characters do
 > ## * Missing data are stored as NA
 > ## * class: data.frame
 >
 > ```
 
-> ### Debugging challenge
->
-> Can you interpret these error messages and fix the code? 
->
-> * install.packages(tidyr)
-> * 
->
-> ```{r, answer=TRUE, results="hide", purl=FALSE}
->
-> install.packages("tidyr")
->
-> ```
-> Why isn't this code rounding pi to 2 digits? 
->
-> round(2, 3.1415)
->
-> ```{r, answer=TRUE, results="markup", purl=FALSE}
->
-> ## * The arguments are switched or need to be labeled
-> round(3.1415, 2)
-> round(digits = 2, x = 3.1415)
->
-> ```
-> What are the arguments for the `plot()` function?
->
-> ```{r, answer=TRUE, results='hide', purl=FALSE}
->
-> ## ?plot
-> args(plot)
->
-> ```
+> ### Further data exploration challenge
+> 
+> Using the functions listed for investigating a data.frame, can you answer the following questions?
+> 
+> * What is the last value in the column "genus"? 
+> * What is the median weight? (hint: use `summary()`)
+> * Is the median equal to the median in hindfoot length? 
+> * Which column has the most missing data? 
+
+
